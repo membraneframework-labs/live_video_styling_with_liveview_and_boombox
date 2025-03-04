@@ -37,10 +37,26 @@ defmodule Membrane.Template.Mixfile do
 
   defp deps do
     [
-      {:membrane_core, "~> 1.0"},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:dialyxir, ">= 0.0.0", only: :dev, runtime: false},
-      {:credo, ">= 0.0.0", only: :dev, runtime: false}
+      {:ortex, "~> 0.1.9"},
+      {:nx, "~> 0.7.0"},
+      {:exla, "~> 0.7.0"},
+      # Membrane
+      {:boombox,
+       github: "membraneframework/boombox", ref: "f4ccbfcf4a71d14764fd269b3491d4c862c4d4c2"},
+      {:membrane_webrtc_live, path: "../"},
+      {:membrane_webrtc_plugin, "~> 0.24.0", override: true},
+      {:phoenix, "~> 1.7.19"},
+      {:phoenix_html, "~> 4.1"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_view, "~> 1.0.0"},
+      {:floki, ">= 0.30.0", only: :test},
+      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
+      {:telemetry_metrics, "~> 1.0"},
+      {:telemetry_poller, "~> 1.0"},
+      {:gettext, "~> 0.26"},
+      {:jason, "~> 1.2"},
+      {:dns_cluster, "~> 0.1.1"},
+      {:bandit, "~> 1.5"}
     ]
   end
 
