@@ -32,6 +32,18 @@ defmodule Demo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # AI
+      {:ortex, "~> 0.1.9"},
+      {:nx, "~> 0.7.0"},
+      {:exla, "~> 0.7.0"},
+
+      # MEMBRANE
+      {:boombox,
+      github: "membraneframework/boombox", ref: "f4ccbfcf4a71d14764fd269b3491d4c862c4d4c2"},
+      {:membrane_webrtc_live, path: "../"},
+      {:membrane_webrtc_plugin, "~> 0.24.0", override: true},
+
+      # PHOENIX
       {:phoenix, "~> 1.7.19"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
