@@ -1,5 +1,4 @@
 defmodule Demo.StyleTransfer do
-
   @styles [:candy, :kaganawa, :mosaic, :mosaic_mobile, :picasso, :princess, :udnie, :vangogh]
 
   def load_model(style) when style in @styles do
@@ -7,7 +6,6 @@ defmodule Demo.StyleTransfer do
     |> get_model_path()
     |> Ortex.load()
   end
-
 
   def predict(tensor, model) do
     offsets = Nx.tensor([1.0, 1.0, 1.0, 1.0], type: :f32)

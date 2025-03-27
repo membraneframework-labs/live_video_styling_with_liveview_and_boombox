@@ -19,13 +19,13 @@ defmodule DemoWeb.Live.EchoLive do
               output: {:stream, video: :image, audio: false, video_width: 320}
             )
             |> Stream.map(fn %Boombox.Packet{kind: :video, payload: image} = packet ->
-                image =
-                  image
-                  |> StyleTransfer.preprocess()
-                  |> StyleTransfer.predict(model)
-                  |> StyleTransfer.postprocess()
+              image =
+                image
+                |> StyleTransfer.preprocess()
+                |> StyleTransfer.predict(model)
+                |> StyleTransfer.postprocess()
 
-                %{packet | payload: image}
+              %{packet | payload: image}
             end)
             |> Boombox.run(
               input: {:stream, video: :image, audio: false},
