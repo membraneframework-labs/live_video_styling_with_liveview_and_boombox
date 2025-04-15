@@ -1,25 +1,32 @@
 defmodule Demo.StyleTransfer do
-  @styles [:candy, :kaganawa, :mosaic, :mosaic_mobile, :picasso, :princess, :udnie, :vangogh]
+  @moduledoc false
+  @styles [:candy, :kaganawa, :mosaic, :picasso, :princess, :udnie, :vangogh]
 
+  @spec load_model(atom()) :: Ortex.Model.t()
   def load_model(style) when style in @styles do
-    style
-    |> get_model_path()
-    |> Ortex.load()
+    model_path =
+      Application.get_application(__MODULE__)
+      |> :code.priv_dir()
+      |> Path.join("ai_models/#{style}.onnx")
+
+    Ortex.load(style_model)
   end
 
-  def predict(tensor, model) do
+  @spec apply(Image.t(), Ortex.Model.t()) :: Image.t()
+  def apply(image, model) do
+    image
+    |> preprocess()
+    |> predict(model)
+    |> postprocess()
+  end
+
+  defp predict(tensor, model) do
     offsets = Nx.tensor([1.0, 1.0, 1.0, 1.0], type: :f32)
     {output} = Ortex.run(model, {tensor, offsets})
     output
   end
 
-  defp get_model_path(style) do
-    Application.get_application(__MODULE__)
-    |> :code.priv_dir()
-    |> Path.join("ai_models/#{style}.onnx")
-  end
-
-  def preprocess(image) do
+  defp preprocess(image) do
     image
     |> Image.to_nx!()
     |> Nx.backend_transfer(EXLA.Backend)
@@ -28,7 +35,7 @@ defmodule Demo.StyleTransfer do
     |> Nx.reshape({1, 3, Image.height(image), Image.width(image)})
   end
 
-  def postprocess(tensor) do
+  defp postprocess(tensor) do
     {1, 3, height, width} = Nx.shape(tensor)
 
     tensor

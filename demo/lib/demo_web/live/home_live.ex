@@ -18,13 +18,8 @@ defmodule DemoWeb.Live.HomeLive do
               input: {:webrtc, ingress_signaling},
               output: {:stream, video: :image, audio: false, video_width: 400}
             )
-            |> Stream.map(fn %Boombox.Packet{kind: :video, payload: image} = packet ->
-              image =
-                image
-                |> StyleTransfer.preprocess()
-                |> StyleTransfer.predict(model)
-                |> StyleTransfer.postprocess()
-
+            |> Stream.map(fn %Boombox.Packet{kind: :video} = packet ->
+              image = StyleTransfer.apply(image, model)
               %{packet | payload: image}
             end)
             |> Boombox.run(
