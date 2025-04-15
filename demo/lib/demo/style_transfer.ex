@@ -9,7 +9,7 @@ defmodule Demo.StyleTransfer do
       |> :code.priv_dir()
       |> Path.join("ai_models/#{style}.onnx")
 
-    Ortex.load(style_model)
+    Ortex.load(model_path)
   end
 
   @spec apply(Image.t(), Ortex.Model.t()) :: Image.t()
