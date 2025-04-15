@@ -12,11 +12,11 @@ defmodule DemoWeb.Live.EchoLive do
 
         {:ok, _task_pid} =
           Task.start_link(fn ->
-            model = StyleTransfer.load_model(:vangogh)
+            model = StyleTransfer.load_model(:picasso)
 
             Boombox.run(
               input: {:webrtc, ingress_signaling},
-              output: {:stream, video: :image, audio: false, video_width: 320}
+              output: {:stream, video: :image, audio: false, video_width: 400}
             )
             |> Stream.map(fn %Boombox.Packet{kind: :video, payload: image} = packet ->
               image =
