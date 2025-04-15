@@ -1,4 +1,4 @@
-defmodule DemoWeb.Live.EchoLive do
+defmodule DemoWeb.Live.HomeLive do
   use DemoWeb, :live_view
 
   alias Demo.StyleTransfer
