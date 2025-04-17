@@ -2,7 +2,9 @@ defmodule DemoWeb.Live.WorkingLive do
   use DemoWeb, :live_view
 
   alias Demo.StyleTransfer
-  alias Membrane.WebRTC.Live.{Capture, Player}
+
+  alias Membrane.WebRTC.Live.Capture
+  alias Membrane.WebRTC.Live.Player
 
   def mount(_params, _session, socket) do
     socket =

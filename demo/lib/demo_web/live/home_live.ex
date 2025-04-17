@@ -2,29 +2,33 @@ defmodule DemoWeb.Live.HomeLive do
   use DemoWeb, :live_view
 
   alias Demo.StyleTransfer
-  alias Membrane.WebRTC.Live.{Capture, Player}
+
+  alias Membrane.WebRTC.Live.Capture
+  alias Membrane.WebRTC.Live.Player
 
   def mount(_params, _session, socket) do
     socket =
       if connected?(socket) do
+        ingress_signaling = Membrane.WebRTC.Signaling.new()
+        egress_signaling = Membrane.WebRTC.Signaling.new()
+
         Task.start_link(fn ->
           Boombox.run(
-            input: {:webrtc, },
-            output: {:webrtc, }
+            input: {:webrtc, ingress_signaling},
+            output: {:webrtc, egress_signaling}
           )
         end)
 
         socket
         |> Capture.attach(
-          id: ,
-          signaling: ,
+          id: "mediaCapture",
+          signaling: ingress_signaling,
           audio?: false,
-          video?: true,
-          preview?: false
+          video?: true
         )
         |> Player.attach(
-          id: ,
-          signaling:
+          id: "videoPlayer",
+          signaling: egress_signaling
         )
       else
         socket
@@ -35,8 +39,11 @@ defmodule DemoWeb.Live.HomeLive do
 
   def render(assigns) do
     ~H"""
-    <Capture.live_render socket={@socket}  />
-    <Player.live_render socket={@socket}  />
+    <h3>Captured stream preview</h3>
+    <Capture.live_render socket={@socket} capture_id="mediaCapture" />
+
+    <h3>Stream sent by the server</h3>
+    <Player.live_render socket={@socket} player_id="videoPlayer" />
     """
   end
 end
