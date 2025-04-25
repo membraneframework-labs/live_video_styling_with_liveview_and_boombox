@@ -1,4 +1,4 @@
-defmodule DemoWeb.Live.WorkingLive do
+defmodule DemoWeb.Live.HomeLive do
   use DemoWeb, :live_view
 
   alias Demo.StyleTransfer
@@ -12,23 +12,22 @@ defmodule DemoWeb.Live.WorkingLive do
         ingress_signaling = Membrane.WebRTC.Signaling.new()
         egress_signaling = Membrane.WebRTC.Signaling.new()
 
-        {:ok, _task_pid} =
-          Task.start_link(fn ->
-            model = StyleTransfer.load_model(:picasso)
+        model = StyleTransfer.load_model(:picasso)
 
-            Boombox.run(
-              input: {:webrtc, ingress_signaling},
-              output: {:stream, video: :image, audio: false, video_width: 400}
-            )
-            |> Stream.map(fn %Boombox.Packet{kind: :video} = packet ->
-              image = StyleTransfer.apply(packet.payload, model)
-              %{packet | payload: image}
-            end)
-            |> Boombox.run(
-              input: {:stream, video: :image, audio: false},
-              output: {:webrtc, egress_signaling}
-            )
+        Task.start_link(fn ->
+          Boombox.run(
+            input: {:webrtc, ingress_signaling},
+            output: {:stream, video: :image, audio: false, video_width: 400}
+          )
+          |> Stream.map(fn %Boombox.Packet{kind: :video} = packet ->
+            styled_image = packet.payload |> StyleTransfer.apply(model)
+            %{packet | payload: styled_image}
           end)
+          |> Boombox.run(
+            input: {:stream, video: :image, audio: false},
+            output: {:webrtc, egress_signaling}
+          )
+        end)
 
         socket
         |> Capture.attach(
@@ -51,10 +50,7 @@ defmodule DemoWeb.Live.WorkingLive do
 
   def render(assigns) do
     ~H"""
-    <h3>Captured stream preview</h3>
     <Capture.live_render socket={@socket} capture_id="mediaCapture" />
-
-    <h3>Stream sent by the server</h3>
     <Player.live_render socket={@socket} player_id="videoPlayer" />
     """
   end
