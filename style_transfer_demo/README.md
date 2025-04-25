@@ -4,11 +4,11 @@ Gets the WebRTC video stream from the browser, applies a style transfer filter o
 
 Uses Boombox, Phoenix LiveView and Ortex.
 
-The most imporant parts of this demo is `style_transfer_demo/lib/demo_web/live/home_live.ex`.
+The most imporant parts of this demo is `lib/demo_web/live/home_live.ex`.
 
-Style transfer implementation is in `style_transfer_demo/lib/demo/style_transfer.ex`.
+Style transfer implementation is in `lib/demo/style_transfer.ex`.
 
-JS file that creates necessary LiveView hooks is `style_transfer_demo/assets/js/app.js`.
+JS file that creates necessary LiveView hooks is `assets/js/app.js`.
 
 ## Run
 
