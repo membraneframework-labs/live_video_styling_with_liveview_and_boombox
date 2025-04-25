@@ -1,4 +1,8 @@
-# Demo
+# Style Transfer Demo
+
+Gets the WebRTC video stream from the browser, applies a style transfer filter on it and sends it back to the browser via WebRTC.
+
+Uses Boombox, Phoenix LiveView and Ortex.
 
 To start your Phoenix server:
 
