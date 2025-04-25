@@ -1,6 +1,8 @@
 # Echo Demo
 
+Gets the WebRTC video stream from the browser and sends it back.
 
+Uses Boombox and Phoenix Live.
 
 To start your Phoenix server:
 
