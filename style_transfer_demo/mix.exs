@@ -38,7 +38,8 @@ defmodule Demo.MixProject do
       {:exla, "~> 0.7.0"},
 
       # MEMBRANE
-      {:boombox, path: "../../boombox"},
+      {:boombox,
+       github: "membraneframework/boombox", ref: "b0b8154e41efd4d8ed86f13e2cd28e57c47193fc"},
       {:membrane_webrtc_plugin, "~> 0.25.0"},
 
       # PHOENIX

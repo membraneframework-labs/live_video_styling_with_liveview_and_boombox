@@ -1,8 +1,6 @@
 defmodule DemoWeb.Live.HomeLive do
   use DemoWeb, :live_view
 
-  alias Demo.StyleTransfer
-
   alias Membrane.WebRTC.Live.Capture
   alias Membrane.WebRTC.Live.Player
 
